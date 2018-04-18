@@ -6,36 +6,57 @@ def gen_code():
     for x in range(4):
         code.append(random.randrange(0,9))
     return code
+def count_code(code):
+    count = {}
+    for num in code:
+        ticker = 0
+        count[num] = 0
+        for i in range(len(code)):
+            if num == code[i]:
+                ticker += 1
+            count[num] = ticker
+    return count
+
+
 
 def check(code, guess, win):
-    guess_out = ['-','-','-','-']
-    win_con   = 0
-    x_it = 0
-    for i in range(len(code)):
-        print (i)
-        if guess[i] == code:
-            guess_out[x_it] = 'X'
-            x_it += 1
+    guess_out   = ['-','-','-','-']
+    win_con     = 0
+    x_it        = 0
+    count       = 0
+    for number in guess:
+        for num in code:
+        #print(num)
+            #print("Guess,Count:\t",guess[count], code[count], count)
+            #print("Guess,Num  :\t",guess[count], num)
+            if  number == num and guess[count] != code[count]:
+                #print (count)
+                guess_out[x_it] = 'X'
+                x_it  += 1
+        count += 1
+        print(num,'\t', count)
+
     for x in range(len(guess)):
         if guess[x] == code[x]:
-            guess_out[x] = 'O'
+            guess_out[x_it] = 'O'
+            x_it += 1
             win_con += 1
         if win_con == 4:
             print ("!!! CODE CRACKED !!!")
             return 'cracked'
+    return print(guess_out)
 
 def take_guess():
     guess_in = []
     y = input('Enter 4 Digit Code: ')
-    print(y)
     for char in y:
         guess_in.append(int(char))
-    print (guess_in)
     return guess_in
 
 def main (win):
     crack = gen_code()
     print(crack)
+    print(count_code(crack))
     while win < 11:
         guess = take_guess()
         print(guess)
