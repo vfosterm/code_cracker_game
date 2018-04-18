@@ -6,6 +6,7 @@ def gen_code():
     for x in range(4):
         code.append(random.randrange(0,9))
     return code
+
 def count_code(code):
     count = {}
     for num in code:
@@ -18,12 +19,15 @@ def count_code(code):
     return count
 
 
-
 def check(code, guess, win):
     guess_out   = ['-','-','-','-']
     win_con     = 0
     x_it        = 0
+    y_it        = 0
     count       = 0
+    code_count  = count_code(code)
+    guess_count = count_code(guess)
+
     for number in guess:
         for num in code:
         #print(num)
@@ -31,15 +35,28 @@ def check(code, guess, win):
             #print("Guess,Num  :\t",guess[count], num)
             if  number == num and guess[count] != code[count]:
                 #print (count)
-                guess_out[x_it] = 'X'
-                x_it  += 1
+                if code_count[number] > guess_count[number]:
+                    for i in range(guess_count[number]):
+                        guess_out[x_it] = 'X'
+                        x_it  += 1
+                        print('a:\t',guess_out, x_it)
+                elif guess_count[number] > code_count[number]:
+                    for i in range(code_count[number]):
+                        guess_out[x_it] = 'X'
+                        x_it  += 1
+                        print('b:\t',guess_out, x_it)
+                elif guess_count[number] == code_count[number]:
+                    for i in range(code_count[number]):
+                        guess_out[x_it] = 'X'
+                        x_it  += 1
+                        print('c:\t',guess_out, x_it)
         count += 1
         print(num,'\t', count)
 
     for x in range(len(guess)):
         if guess[x] == code[x]:
-            guess_out[x_it] = 'O'
-            x_it += 1
+            guess_out[y_it] = 'O'
+            y_it += 1
             win_con += 1
         if win_con == 4:
             print ("!!! CODE CRACKED !!!")
