@@ -6,24 +6,23 @@ def gen_code():
     for x in range(4):
         code.append(random.randrange(0,9))
     return code
-#print(gen_code())
 
 def check(code, guess, win):
-    guess_out = []
+    guess_out = ['-','-','-','-']
     win_con   = 0
-    for guess in code:
-        if guess == code:
-            guess_out.append('X')
-            print(guess_out)
-    for x in guess:
+    x_it = 0
+    for i in range(len(code)):
+        print (i)
+        if guess[i] == code:
+            guess_out[x_it] = 'X'
+            x_it += 1
+    for x in range(len(guess)):
         if guess[x] == code[x]:
-            guess_out.append('O')
+            guess_out[x] = 'O'
             win_con += 1
-            print(guess_out)
         if win_con == 4:
             print ("!!! CODE CRACKED !!!")
-            win += 10
-    return print(guess_out)
+            return 'cracked'
 
 def take_guess():
     guess_in = []
@@ -37,10 +36,14 @@ def take_guess():
 def main (win):
     crack = gen_code()
     print(crack)
-    while win < 10:
+    while win < 11:
         guess = take_guess()
         print(guess)
-        print (check(crack,guess, win))
+        check_guess = check(crack,guess, win)
+        if check_guess == 'cracked':
+            return
+        if win == 10:
+            return print('GAME OVER')
         win += 1
 
 
