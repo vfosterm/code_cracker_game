@@ -7,60 +7,32 @@ def gen_code():
         code.append(random.randrange(0,9))
     return code
 
-def count_code(code):
-    count = {}
-    for num in code:
-        ticker = 0
-        count[num] = 0
-        for i in range(len(code)):
-            if num == code[i]:
-                ticker += 1
-            count[num] = ticker
-    return count
-
-
 def check(code, guess, win):
     guess_out   = ['-','-','-','-']
     win_con     = 0
     x_it        = 0
-    y_it        = 0
-    count       = 0
-    code_count  = count_code(code)
-    guess_count = count_code(guess)
-
-    for number in guess:
-        for num in code:
-        #print(num)
-            #print("Guess,Count:\t",guess[count], code[count], count)
-            #print("Guess,Num  :\t",guess[count], num)
-            if  number == num and guess[count] != code[count]:
-                #print (count)
-                if code_count[number] > guess_count[number]:
-                    for i in range(guess_count[number]):
-                        guess_out[x_it] = 'X'
-                        x_it  += 1
-                        print('a:\t',guess_out, x_it)
-                elif guess_count[number] > code_count[number]:
-                    for i in range(code_count[number]):
-                        guess_out[x_it] = 'X'
-                        x_it  += 1
-                        print('b:\t',guess_out, x_it)
-                elif guess_count[number] == code_count[number]:
-                    for i in range(code_count[number]):
-                        guess_out[x_it] = 'X'
-                        x_it  += 1
-                        print('c:\t',guess_out, x_it)
-        count += 1
-        print(num,'\t', count)
-
+    temp_code   = []
+    
+    for num in code:
+        temp_code.append(num)
     for x in range(len(guess)):
-        if guess[x] == code[x]:
-            guess_out[y_it] = 'O'
-            y_it += 1
+        if guess[x] == temp_code[x]:
+            guess_out[x_it] = 'O'
+            x_it += 1
             win_con += 1
+            temp_code[x] = 99
+            guess[x]     = 99
+
         if win_con == 4:
             print ("!!! CODE CRACKED !!!")
-            return 'cracked'
+            return True
+    for x in range(len(guess)):    
+        for y in range(len(code)):
+            if guess[x] == temp_code[y] and x != y and guess[x] < 10:
+                guess_out[x_it] = 'X'
+                x_it += 1
+                guess[x] = 99
+                temp_code[y] = 99
     return print(guess_out)
 
 def take_guess():
@@ -73,12 +45,9 @@ def take_guess():
 def main (win):
     crack = gen_code()
     print(crack)
-    print(count_code(crack))
-    while win < 11:
+    while win < 10:
         guess = take_guess()
-        print(guess)
-        check_guess = check(crack,guess, win)
-        if check_guess == 'cracked':
+        if check(crack,guess, win) == True:
             return
         if win == 10:
             return print('GAME OVER')
