@@ -11,9 +11,6 @@ def guess_out_trans(guess_out):
     return guess_out_transd
 
 def draw_game(guess_list, guess_out):
-    #guess list will be ["4564", "4444", "5555"]
-    #guess out  will be [['-','-','-','-'],["X","X","X","X"]]
-    #guess_out_trans will be ["----", "XXXX", "OOOO"]
     game_length = 10
     game = [[" CODE \n"," CRACK \n STATUS "],['',''],['',''],['',''],['',''],['',''],['',''],['',''],['',''],['',''],['','']]
     crack_status = guess_out_trans(guess_out)
@@ -72,7 +69,6 @@ def take_guess():
 def main ():
     turn  = 1
     code = gen_code()
-    print(code)
     guess_list   = []
     guess_out = []
     while turn < 11:
